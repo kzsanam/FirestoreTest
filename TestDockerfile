@@ -1,0 +1,20 @@
+# Use a base image with a Java Runtime Environment (JRE)
+FROM openjdk:11
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy your Java application JAR file to the container
+COPY target/your-java-app.jar .  # Replace 'your-java-app.jar' with your JAR file name
+
+# Copy the Firestore service account key file into the container
+COPY serviceAccountKey.json /app/serviceAccountKey.json  # Replace with the actual key file name
+
+# Expose the port that your Java application may listen on (adjust as needed)
+EXPOSE 8081
+
+# Set the GOOGLE_APPLICATION_CREDENTIALS environment variable
+ENV GOOGLE_APPLICATION_CREDENTIALS=/app/serviceAccountKey.json
+
+# Define the command to run your Java application
+CMD ["java", "-jar", "your-java-app.jar"]

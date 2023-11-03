@@ -14,24 +14,24 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <repositories>
+<!--    <repositories>-->
+<!--&lt;!&ndash;        <repository>&ndash;&gt;-->
+<!--&lt;!&ndash;            <id>central</id>&ndash;&gt;-->
+<!--&lt;!&ndash;            <url>https://repo.maven.apache.org/maven2</url>&ndash;&gt;-->
+<!--&lt;!&ndash;        </repository>&ndash;&gt;-->
 <!--        <repository>-->
-<!--            <id>central</id>-->
-<!--            <url>https://repo.maven.apache.org/maven2</url>-->
+<!--            <id>google</id>-->
+<!--            <name>Google</name>-->
+<!--            <url>https://dl.google.com/dl/android/maven2</url>-->
 <!--        </repository>-->
-        <repository>
-            <id>google</id>
-            <name>Google</name>
-            <url>https://dl.google.com/dl/android/maven2</url>
-        </repository>
-    </repositories>
+<!--    </repositories>-->
 <!--    <dependencyManagement>-->
     <dependencies>
             <!-- Firestore SDK -->
 <!--        <dependency>-->
 <!--            <groupId>com.google.cloud</groupId>-->
 <!--            <artifactId>google-cloud-firestore</artifactId>-->
-<!--            <version>3.3.0</version> &lt;!&ndash; Use the latest version available &ndash;&gt;-->
+<!--            <version>3.15.0</version> &lt;!&ndash; Use the latest version available &ndash;&gt;-->
 <!--        </dependency>-->
 
             <!-- Firebase Admin SDK (optional, for server use) -->
@@ -41,19 +41,82 @@
             <version>9.2.0</version>
         </dependency>
 
-        <!-- SLF4J API -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.32</version> <!-- Use the latest version -->
-        </dependency>
-        <!-- Logback (SLF4J binding) -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.9</version> <!-- Use the latest version -->
-        </dependency>
+<!--         SLF4J API -->
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-api</artifactId>-->
+<!--            <version>1.7.32</version> &lt;!&ndash; Use the latest version &ndash;&gt;-->
+<!--        </dependency>-->
+<!--&lt;!&ndash;         Logback (SLF4J binding)&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>ch.qos.logback</groupId>-->
+<!--            <artifactId>logback-classic</artifactId>-->
+<!--            <version>1.2.9</version> &lt;!&ndash; Use the latest version &ndash;&gt;-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>ch.qos.logback</groupId>-->
+<!--            <artifactId>logback-classic</artifactId>-->
+<!--            <version>1.2.6</version> &lt;!&ndash; Use the latest version &ndash;&gt;-->
+<!--        </dependency>-->
     </dependencies>
 <!--    </dependencyManagement>-->
-
+    <build>
+        <plugins>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-shade-plugin</artifactId>-->
+<!--                <version>3.2.4</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>shade</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <createDependencyReducedPom>false</createDependencyReducedPom>-->
+<!--                            <shadedArtifactAttached>true</shadedArtifactAttached>-->
+<!--                            <shadedClassifierName>shaded</shadedClassifierName>-->
+<!--                            <transformers>-->
+<!--                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
+<!--                                    <mainClass>org.example.Main</mainClass>-->
+<!--                                </transformer>-->
+<!--                            </transformers>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-dependency-plugin</artifactId>-->
+<!--                <version>2.6</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>unpack-dependencies</id>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>unpack-dependencies</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <excludeScope>system</excludeScope>-->
+<!--                            <excludes>META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA</excludes>-->
+<!--                            <excludeGroupIds>junit,org.mockito,org.hamcrest</excludeGroupIds>-->
+<!--                            <outputDirectory>${project.build.directory}/classes</outputDirectory>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.example.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

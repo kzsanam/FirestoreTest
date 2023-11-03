@@ -13,16 +13,16 @@ import java.util.concurrent.ExecutionException;
 public class Main {
 
     public static void main(String[] args)
-            throws IOException {
+            throws IOException, ExecutionException, InterruptedException {
         //authenticate
-        Firestore db = GetDocument.authencication("test-8dd59");
-
-        GetDocument.listen(db);
+//        Firestore db = GetDocument.authenticationGoogleClient("test-8dd59");
+        Firestore db = GetDocument.authenticationServiceAccount("test-8dd59");
+//        GetDocument.listen(db);
 
 //        GetDocument.writeCities(db);
 
-//        GetDocument.writeUsers(Firestore db)
+//        GetDocument.writeUsers(db);
 
-//        GetDocument.getData(db);
+        GetDocument.getData(db);
     }
 }

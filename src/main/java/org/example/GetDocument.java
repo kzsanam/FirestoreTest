@@ -21,6 +21,7 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.database.annotations.Nullable;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,28 +32,8 @@ import java.util.concurrent.ExecutionException;
 
 public class GetDocument {
 
-    public static Firestore authencication(String FireStoreName)
+    public static Firestore authenticationGoogleClient(String FireStoreName)
             throws IOException {
-
-        // Use a service account
-//        InputStream serviceAccount = new FileInputStream("path/to/serviceAccount.json");
-//        GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-//        FirebaseOptions options = new FirebaseOptions.Builder()
-//                .setCredentials(credentials)
-//                .build();
-//        FirebaseApp.initializeApp(options);
-//
-//        Firestore db = FirestoreClient.getFirestore();
-//
-        //the environment variable
-//        System.setProperty("GOOGLE_APPLICATION_CREDENTIALS", "/home/alex/Desktop/test-8dd59-cb31985b3524.json");
-        //engine
-//        System.setProperty("GOOGLE_APPLICATION_CREDENTIALS", "/home/alex/Desktop/test-8dd59-068293bf2e97.json");
-
-        // Use the application default credentials with google client
-
-//        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault(
-//                (HttpTransportFactory) new FileInputStream("/home/alex/Desktop/test-8dd59-da9b93684346.json"));
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault();
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(credentials)
@@ -63,14 +44,29 @@ public class GetDocument {
         return FirestoreClient.getFirestore();
     }
 
+    public static Firestore authenticationServiceAccount(String FireStoreName)
+            throws IOException {
+        // Use a service account. go to settings of firebase -> service accounts -> generate new private keys
+        String currentDirectory = System.getProperty("user.dir");
+
+        FileInputStream serviceAccount =
+//                new FileInputStream(currentDirectory + "/serviceAccountKey.json");
+                new FileInputStream("/home/alex/IdeaProjects/FirestoreTest/serviceAccountKey.json");
+
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .setDatabaseUrl("https://test-8dd59-default-rtdb.europe-west1.firebasedatabase.app")
+                .build();
+
+        FirebaseApp.initializeApp(options);
+
+        return FirestoreClient.getFirestore();
+    }
+
     public static void getData(Firestore db)
             throws ExecutionException, InterruptedException {
 
         // asynchronously retrieve all users
-//        FirebaseApp.initializeApp(options);
-
-//        Firestore db = FirestoreClient.getFirestore();
-
         ApiFuture<QuerySnapshot> query = db.collection("users").get();
 // ...
 // query.get() blocks on response
@@ -146,7 +142,7 @@ public class GetDocument {
 
 
 public static void writeUsers(Firestore db) throws ExecutionException, InterruptedException {
-    DocumentReference docRef = db.collection("users").document("aturing");
+    DocumentReference docRef = db.collection("users777").document("aturing");
 // Add document data with an additional field ("middle")
     Map<String, Object> data = new HashMap<>();
     data.put("first", "Alan");
